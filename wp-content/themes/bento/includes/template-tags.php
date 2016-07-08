@@ -4,7 +4,7 @@
 
 // Generate meta title
 if ( ! function_exists( 'bnt_meta_title' ) ) {
-	
+
 	function bnt_meta_title() {
 		$sep = '/';
 		if ( satori_option( 'bnt_meta_title_separator' ) != '' ) {
@@ -16,20 +16,20 @@ if ( ! function_exists( 'bnt_meta_title' ) ) {
 		</title>
 		<?php
 	}
-	
+
 }
 
 
 // Generate meta description
 if ( ! function_exists( 'bnt_meta_tags' ) ) {
-	
+
 	function bnt_meta_description() {
 		global $post;
-		
+
 		// Front page
 		if ( is_front_page() && satori_option( 'bnt_front_meta_description' ) != '' ) {
 			$meta_desc = satori_option( 'bnt_front_meta_description' );
-		
+
 		// Posts and pages
 		} else if ( is_singular($post) ) {
 			$raw_desc = mb_substr(rtrim(strip_tags(get_post($post->ID)->post_content)), 0, 160);
@@ -41,16 +41,16 @@ if ( ! function_exists( 'bnt_meta_tags' ) ) {
 			if ( get_post_meta($post->ID, 'bnt_meta_description', true) != '' ) {
 				$meta_desc = get_post_meta($post->ID, 'bnt_meta_description', true);
 			}
-			
+
 		// Taxonomy archives
 		} else if ( ( is_category() || is_tag() || is_tax() ) && term_description() != '' ) {
 			$meta_desc = term_description();
-			
+
 		// Author archives
 		} else if ( is_author() && get_userdata($post->post_author)->description != '' ) {
 			$meta_desc = get_userdata($post->post_author)->description;
-			
-		// All other instances	
+
+		// All other instances
 		} else {
 			if ( satori_option( 'bnt_front_meta_description' ) != '' ) {
 				$meta_desc = satori_option( 'bnt_front_meta_description' );
@@ -59,15 +59,15 @@ if ( ! function_exists( 'bnt_meta_tags' ) ) {
 			}
 		}
 		echo '<meta name="description" content="'.$meta_desc.'" />';
-		
+
 	}
-	
+
 }
 
 
 // Include Google Fonts
 if ( ! function_exists( 'bnt_google_font' ) ) {
-	
+
 	function bnt_google_font() {
 		$fonts = '';
 		$body_font = $headings_font = 'Open Sans';
@@ -88,15 +88,15 @@ if ( ! function_exists( 'bnt_google_font' ) ) {
 		$menu_font = str_replace( ' ', '+', $menu_font );
 		$fonts .= '<link href="https://fonts.googleapis.com/css?family='.$menu_font.':400" rel="stylesheet" type="text/css">';
 		echo $fonts;
-        
+
 	}
-	
+
 }
 
 
 // Display the logo
 if ( ! function_exists( 'bnt_logo' ) ) {
-	
+
 	function bnt_logo() {
 		if ( satori_option('bnt_logo') != '' ) {
 			$logo_full = $logo_mobile = satori_option('bnt_logo');
@@ -111,15 +111,15 @@ if ( ! function_exists( 'bnt_logo' ) ) {
 				</a>
 			</div>
 			';
-		} 
+		}
 	}
-    
+
 }
 
 
 // Primary menu
 if ( ! function_exists( 'bnt_primary_menu' ) ) {
-	
+
 	function bnt_primary_menu() {
 		$depth = '3';
 		if ( satori_option( 'bnt_menu_config' ) == 2 ) {
@@ -129,9 +129,9 @@ if ( ! function_exists( 'bnt_primary_menu' ) ) {
 		<div class="header-menu clear">
             <div id="nav-primary" class="nav">
                 <nav>
-                    <?php 
-                    wp_nav_menu( 
-                        array( 
+                    <?php
+                    wp_nav_menu(
+                        array(
                             'theme_location' => 'primary-menu',
                             'depth' => $depth,
                             'menu_class' => 'primary-menu',
@@ -161,19 +161,19 @@ if ( ! function_exists( 'bnt_primary_menu' ) ) {
 		</div>
         <?php
 	}
-	
+
 }
 
 
 // Mobile menu
 if ( ! function_exists( 'bnt_mobile_menu' ) ) {
-	
+
 	function bnt_mobile_menu() {
 		$menu_depth = 3;
 		if ( satori_option( 'bnt_mobile_menu_submenus' ) ) {
 			$menu_depth = 1;
 		}
-		
+
 		// Check if menu exists, exit if it doesn't
 		$menu = wp_nav_menu(
 			array (
@@ -205,9 +205,9 @@ if ( ! function_exists( 'bnt_mobile_menu' ) ) {
                     </div>
                 </div>
                 <nav>
-                    <?php 
-                    wp_nav_menu( 
-                        array( 
+                    <?php
+                    wp_nav_menu(
+                        array(
                             'theme_location' => 'primary-menu',
                             'depth' => $menu_depth,
                             'menu_class' => 'primary-mobile-menu',
@@ -223,21 +223,21 @@ if ( ! function_exists( 'bnt_mobile_menu' ) ) {
         </div>
         <?php
 	}
-	
+
 }
 
 
 // Footer menu
 if ( ! function_exists( 'bnt_footer_menu' ) ) {
-	
+
 	function bnt_footer_menu() {
 		?>
 		<div class="footer-menu">
 			<div id="nav-footer" class="nav">
 				<nav>
-					<?php 
-					wp_nav_menu( 
-						array( 
+					<?php
+					wp_nav_menu(
+						array(
 							'theme_location' => 'footer-menu',
 							'depth' => '1',
 							'menu_class' => 'menu-footer',
@@ -253,27 +253,27 @@ if ( ! function_exists( 'bnt_footer_menu' ) ) {
 		</div>
 		<?php
 	}
-	
+
 }
 
 
 // Display post header
 if ( ! function_exists( 'bnt_post_header' ) ) {
-	
+
 	function bnt_post_header() {
-		
+
 		// Get post ID
 		global $post;
 		$postid = '';
 		if ( is_object($post) ) {
 			$postid = $post->ID;
 		}
-		
+
 		// Only display on single posts/pages
 		if ( ! is_singular() ) {
 			return;
 		}
-		
+
 		// Set titles
 		$title = get_the_title();
 		$subtitle = $cta = $video_header = '';
@@ -284,7 +284,7 @@ if ( ! function_exists( 'bnt_post_header' ) ) {
 				</div>
 			';
 		}
-		
+
 		// Set call-to-action elements if defined
 		if ( get_post_meta( $postid, 'bnt_cta_primary_text', true ) != '' ) {
 			$cta_primary = $cta_secondary = '';
@@ -302,9 +302,9 @@ if ( ! function_exists( 'bnt_post_header' ) ) {
 						</div>
 					';
 				}
-			}	
+			}
 			if ( get_post_meta( $postid, 'bnt_cta_secondary_text', true ) != '' ) {
-				if ( get_post_meta( $postid, 'bnt_cta_secondary_link', true ) != '' ) {	
+				if ( get_post_meta( $postid, 'bnt_cta_secondary_link', true ) != '' ) {
 					$cta_secondary = '
 						<a class="post-header-cta-secondary" href="'.get_post_meta( $postid, 'bnt_cta_secondary_link', true ).'">
 							'.get_post_meta( $postid, 'bnt_cta_secondary_text', true ).'
@@ -325,22 +325,22 @@ if ( ! function_exists( 'bnt_post_header' ) ) {
 				</div>
 			';
 		}
-		
+
 		// Set video if defined and if EP is activated
-		if ( 
-			get_post_meta( $post->ID, 'bnt_header_video_source', true ) != '' && 
-			get_option( 'bnt_ep_license_status' ) == 'valid' && 
-			function_exists('bnt_ep_video_header') 
+		if (
+			get_post_meta( $post->ID, 'bnt_header_video_source', true ) != '' &&
+			get_option( 'bnt_ep_license_status' ) == 'valid' &&
+			function_exists('bnt_ep_video_header')
 		) {
 			$video_header = bnt_ep_video_header();
 		}
-		
+
 		// Set Google Maps if defined and if EP is activated
 		if ( get_post_meta( $post->ID, 'bnt_activate_headermap', true ) == 'on' && get_option( 'bnt_ep_license_status' ) == 'valid' ) {
 			echo '<div id="bnt-map-canvas"></div>';
 			return;
 		}
-		
+
 		// Render the markup
 		if ( get_post_meta( $postid, 'bnt_activate_header', true ) == 'on' && get_post_meta( $post->ID, 'bnt_activate_headermap', true ) != 'on' ) {
 			echo '
@@ -358,25 +358,25 @@ if ( ! function_exists( 'bnt_post_header' ) ) {
 				</div>
 			';
 		}
-		
+
 	}
-	
+
 }
 
 
 // Display an optional post thumbnail.
 if ( ! function_exists( 'bnt_post_thumbnail' ) ) {
-	
+
 	function bnt_post_thumbnail() {
 		global $post;
 		global $bnt_parent_page_id;
 		// Check if it's one of the situations when a thumbnail is not needed, and exit if yes
-		if ( 
-			! has_post_thumbnail() || 
-			post_password_required() || 
-			is_attachment() || 
+		if (
+			! has_post_thumbnail() ||
+			post_password_required() ||
+			is_attachment() ||
 			get_post_format( $post->ID ) === 'quote' ||
-			( is_singular() && get_post_meta( $post->ID, 'bnt_activate_header', true ) == 'on' && get_page_template_slug( $bnt_parent_page_id ) != 'page-grid.php' ) 
+			( is_singular() && get_post_meta( $post->ID, 'bnt_activate_header', true ) == 'on' && get_page_template_slug( $bnt_parent_page_id ) != 'page-grid.php' )
 		) {
 			return;
 		}
@@ -385,8 +385,8 @@ if ( ! function_exists( 'bnt_post_thumbnail' ) ) {
 			<div class="post-thumbnail">
 				<?php the_post_thumbnail(); ?>
 			</div>
-			<?php 
-		} else { 
+			<?php
+		} else {
 			?>
 			<div class="post-thumbnail">
 				<a class="post-thumbnail" href="<?php the_permalink(); ?>">
@@ -395,26 +395,26 @@ if ( ! function_exists( 'bnt_post_thumbnail' ) ) {
 					?>
 				</a>
 			</div>
-		
-			<?php 
+
+			<?php
 		}
 	}
-	
+
 }
 
 
 // Display entry dates in the blog
 if ( ! function_exists( 'bnt_post_date_blog' ) ) {
-	
+
 	function bnt_post_date_blog() {
 		if ( is_single() ) {
 			return;
 		}
 		if ( get_the_title() == '' ) {
-			$post_date_link = '<a href="'.get_the_permalink().'">';	
+			$post_date_link = '<a href="'.get_the_permalink().'">';
 			$post_date_link_close = '</a>';
 		} else {
-			$post_date_link = $post_date_link_close = '';	
+			$post_date_link = $post_date_link_close = '';
 		}
 		$post_day = get_the_date('d');
 		$post_month = get_the_date('M');
@@ -435,27 +435,27 @@ if ( ! function_exists( 'bnt_post_date_blog' ) ) {
 			</div>
 		';
 	}
-		
+
 }
 
 
 // Display post title
 if ( ! function_exists( 'bnt_post_title' ) ) {
-	
+
 	function bnt_post_title() {
-		
+
 		global $post;
-		
+
 		// Check for formats which do not imply a title
 		if ( in_array( get_post_format(), array('link','aside','status','quote'), true ) ) {
 			return;
 		}
-		
+
 		// If project post type and has a sidebar, exit
 		if ( get_post_type() == 'project' && get_post_meta( $post->ID, 'bnt_sidebar_layout', true ) != 'full-width' ) {
 			return;
 		}
-		
+
 		echo '<header class="entry-header">';
 		// Main title
 		if ( is_single() ) {
@@ -474,49 +474,49 @@ if ( ! function_exists( 'bnt_post_title' ) ) {
 			';
 		}
 		echo '</header>';
-		
+
 	}
-		
+
 }
 
 
 // Display post content according to the post format
 if ( ! function_exists( 'bnt_post_content' ) ) {
-	
+
 	function bnt_post_content() {
-		
+
 		global $post;
-		
+
 		// If project post type and has a sidebar, exit
 		if ( get_post_type() == 'project' && get_post_meta( $post->ID, 'bnt_sidebar_layout', true ) != 'full-width' ) {
 			return;
 		}
-		
+
 		echo '<div class="entry-content clear">';
-		
+
 		// Check for post format and display respective content
-		if ( get_post_format() === 'link' ) { 
+		if ( get_post_format() === 'link' ) {
 			echo bnt_link_format_content();
 		} elseif ( get_post_format() === 'quote' ) {
 			echo bnt_quote_format_content();
 		} else {
-			the_content( __( 'Continue reading', 'satori' ).' &rarr;' );	
+			the_content( __( 'Continue reading', 'satori' ).' &rarr;' );
 		}
-		
+
 		// Navigation for paged posts
-		wp_link_pages( 
+		wp_link_pages(
 			array(
 				'before' => '<div class="page-links">',
 				'after' => '</div>',
 				'link_before' => '<span class="page-link-text">',
 				'link_after' => '</span>',
-			) 
+			)
 		);
-		
+
 		echo '</div>';
-		
+
 	}
-		
+
 }
 
 
@@ -524,17 +524,17 @@ if ( ! function_exists( 'bnt_post_content' ) ) {
 if ( ! function_exists( 'bnt_entry_meta' ) ) {
 
 	function bnt_entry_meta() {
-		
+
 		echo '<footer class="entry-footer">';
-		
+
 		// If single post, display tags
 		if ( is_singular('post') ) {
 			echo '<div class="post-tags">';
 				the_tags();
 			echo '</div></footer>';
-			return;	
+			return;
 		}
-		
+
 		// If project, display navigation
 		if ( get_post_type() == 'project' && is_singular('project') ) {
 			if ( function_exists( 'bnt_ep_project_nav' ) ) {
@@ -542,12 +542,12 @@ if ( ! function_exists( 'bnt_entry_meta' ) ) {
 			}
 			return;
 		}
-		
+
 		// Display a pin for sticky posts
 		if ( is_sticky() && is_home() && ! is_paged() ) {
 			echo '<span class="sticky-icon"></span>';
 		}
-				
+
 		// Display post meta - author, category, and comments
 		$post_author = '<i>'.__( 'Posted by', 'satori' ).'</i> <span class="uppercase">'.get_the_author().'</span>';
 		$post_categories_ids = wp_get_post_categories( get_the_ID(), array('fields' => 'ids') );
@@ -582,13 +582,13 @@ if ( ! function_exists( 'bnt_entry_meta' ) ) {
 		if ( get_post_type() == 'post' ) {
 			echo $post_meta;
 		}
-		
+
 		edit_post_link( __( 'Edit this', 'satori' ), '<div class="edit-this">', '</div>' );
-			
+
 		echo '</footer>';
-		
+
 	}
-	
+
 }
 
 
@@ -619,7 +619,7 @@ if ( ! function_exists( 'bnt_author_info' ) ) {
             <?php
 		}
 	}
-	
+
 }
 
 
@@ -641,10 +641,10 @@ if ( ! function_exists( 'bnt_comments_nav' ) ) {
                     ?>
                 </div>
             </nav>
-        <?php	
+        <?php
 		}
 	}
-	
+
 }
 
 
@@ -669,12 +669,12 @@ if ( ! function_exists( 'bnt_comment' ) ) {
 						<?php edit_comment_link(__( 'Edit', 'satori' )); ?>
                         <?php
                         comment_reply_link(
-                            array_merge( $args, 
+                            array_merge( $args,
                                 array(
-                                    'depth' => $depth, 
+                                    'depth' => $depth,
                                 )
                             )
-                        );	
+                        );
                         ?>
                     </div>
 				</div>
@@ -686,7 +686,7 @@ if ( ! function_exists( 'bnt_comment' ) ) {
 				<?php } ?>
 		<?php
 	}
-	
+
 }
 
 
@@ -694,14 +694,14 @@ if ( ! function_exists( 'bnt_comment' ) ) {
 if ( ! function_exists( 'bnt_blog_pagination' ) ) {
 
 	function bnt_blog_pagination() {
-		the_posts_pagination( 
+		the_posts_pagination(
 			array(
 				'prev_text' => '&larr; '.__( 'Previous page', 'satori' ),
 				'next_text' => __( 'Next page', 'satori' ).' &rarr;',
-			) 
+			)
 		);
 	}
-	
+
 }
 
 
@@ -717,18 +717,18 @@ if ( ! function_exists( 'bnt_grid_pagination' ) ) {
             </h2>
 			<div class="nav-links">
 				<?php
-				echo paginate_links( 
+				echo paginate_links(
 					array(
 						'current' => max( 1, get_query_var('paged') ),
 						'total' => $bnt_query->max_num_pages,
-					) 
+					)
 				);
 				?>
 			</div>
 		</nav>
 		<?php
 	}
-	
+
 }
 
 
@@ -738,13 +738,13 @@ if ( ! function_exists( 'bnt_link_format_content' ) ) {
 	function bnt_link_format_content() {
 		$url = get_the_content();
 		$anchor = get_the_title();
-		if ( ! filter_var( $url, FILTER_VALIDATE_URL ) === false ) { 
+		if ( ! filter_var( $url, FILTER_VALIDATE_URL ) === false ) {
 			return '<a href="'.$url.'" title="'.$anchor.'" target="_blank">'.$anchor.'</a>';
 		} else {
-			return $url;	
+			return $url;
 		}
 	}
-	
+
 }
 
 
@@ -760,7 +760,7 @@ if ( ! function_exists( 'bnt_quote_format_content' ) ) {
 		}
 		return $output;
 	}
-	
+
 }
 
 
@@ -781,7 +781,7 @@ if ( ! function_exists( 'bnt_copyright' ) ) {
 		$copyright .= '</div>';
 		echo $copyright;
 	}
-	
+
 }
 
 
@@ -790,7 +790,7 @@ if ( ! function_exists( 'bnt_ajax_load_more' ) ) {
 
 	function bnt_ajax_load_more() {
 	if ( is_home() || is_archive() || is_search() ) {
-		$class = '';	
+		$class = '';
 	} else {
 		$class = 'grid-ajax-load-more';
 	}
@@ -802,7 +802,7 @@ if ( ! function_exists( 'bnt_ajax_load_more' ) ) {
         	<div class="spinner-circle">
             </div>
         </div>
-    <?php 
+    <?php
 	}
 
 }
@@ -810,14 +810,14 @@ if ( ! function_exists( 'bnt_ajax_load_more' ) ) {
 
 // Display advanced excerpt
 if ( ! function_exists( 'bnt_excerpt' ) ) {
-	
+
 	function bnt_excerpt( $length = 300 ) {
 		$excerpt = '';
 		$content = get_extended( apply_filters( 'the_content', strip_shortcodes( get_the_content() ) ) );
 		$content = str_replace( ']]>', ']]&gt;', $content );
 		// First check if the post has an excerpt
 		if ( has_excerpt() ) {
-			$excerpt = get_the_excerpt(); 
+			$excerpt = get_the_excerpt();
 		} else {
 			$content_main = $content['main'];
 			if ( strlen($content_main) > $length ) {
@@ -830,28 +830,28 @@ if ( ! function_exists( 'bnt_excerpt' ) ) {
 				}
 			} else {
 				$excerpt = $content_main;
-			}			 
-		} 
-		if ( get_post_format() === 'link' ) { 
+			}
+		}
+		if ( get_post_format() === 'link' ) {
 			$excerpt = bnt_link_format_content();
 		} elseif ( get_post_format() === 'quote' ) {
 			$excerpt = bnt_quote_format_content();
 		}
 		echo '<div class="entry-content grid-item-content">'.$excerpt.'</div>';
 	}
-		
+
 }
 
 
 // Render masonry tile content
 if ( ! function_exists( 'bnt_masonry_item_content' ) ) {
-	
+
 	function bnt_masonry_item_content() {
-		
+
 		global $post;
 		global $bnt_parent_page_id;
 		$tile_content = $tile_title = $tile_content_opacity = $tile_text_style = $tile_project_types = $tile_text_color = $tile_background = $tile_image = $tile_overlay = $tile_color = $tile_opacity = '';
-		
+
 		// Content
 		if ( get_post_format( $post->ID ) === 'quote' ) {
 			$tile_title = '"'.get_the_content().'"<br><br><em>'.get_the_title().'</em>';
@@ -883,7 +883,7 @@ if ( ! function_exists( 'bnt_masonry_item_content' ) ) {
 				'.$tile_project_types.'
 			</div>
 		';
-		
+
 		// Background
 		if ( get_post_meta( $post->ID, 'bnt_tile_image', true ) != '' ) {
 			$tile_image = get_post_meta( $post->ID, 'bnt_tile_image', true );
@@ -909,17 +909,17 @@ if ( ! function_exists( 'bnt_masonry_item_content' ) ) {
 			<div class="masonry-item-image" '.$tile_background.'>
 			</div>
 		';
-		
+
 		echo $tile_content;
-		
+
 	}
-	
+
 }
 
 
 // Display info header for new users
 if ( ! function_exists( 'bnt_novice_header' ) ) {
-	
+
 	function bnt_novice_header() {
 		$status = get_option( 'novice_header' );
 		if ( $status != 'dismissed' ) {
@@ -946,7 +946,7 @@ if ( ! function_exists( 'bnt_novice_header' ) ) {
 			<?php
 		}
 	}
-	
+
 }
 
 
